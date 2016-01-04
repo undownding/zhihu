@@ -36,6 +36,7 @@ dependencies {
     compile 'io.reactivex:rxjava:1.1.0'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile 'com.github.recruit-lifestyle:WaveSwipeRefreshLayout:1.4'
 
     // Android Data Binding
     kapt 'com.android.databinding:compiler:1.0-rc4'
