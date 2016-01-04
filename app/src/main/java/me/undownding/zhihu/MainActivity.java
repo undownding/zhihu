@@ -8,6 +8,7 @@ import android.view.View;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
 import me.undownding.zhihu.api.ZhihuApi;
 import me.undownding.zhihu.binding.RecyclerViewUtil;
 import me.undownding.zhihu.model.StoryList;
@@ -23,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.recyclyer_view)
     RecyclerView recyclerView;
 
+    @Bind(R.id.main_swipe)
+    WaveSwipeRefreshLayout swipeRefreshLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
 //        ButterKnife.bind(this);
         toolbar = ButterKnife.findById(this, R.id.toolbar);
         recyclerView = ButterKnife.findById(this, R.id.recyclyer_view);
+        swipeRefreshLayout = ButterKnife.findById(this, R.id.main_swipe);
+
+        swipeRefreshLayout.setWaveColor(getResources().getColor(R.color.colorPrimary));
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(android.R.color.white));
 
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {

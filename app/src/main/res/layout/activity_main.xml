@@ -21,12 +21,19 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
+            android:elevation="4dp"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclyer_view"
+    <jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:id="@+id/main_swipe"
+        android:elevation="4dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclyer_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout>
 </android.support.design.widget.CoordinatorLayout>
