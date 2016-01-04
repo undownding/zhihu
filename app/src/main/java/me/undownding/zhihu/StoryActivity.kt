@@ -2,13 +2,15 @@ package me.undownding.zhihu
 
 import android.os.Bundle
 import android.os.Handler
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
+import android.view.MenuItem
 import android.webkit.WebView
 import butterknife.Bind
 import butterknife.ButterKnife
 import com.snappydb.DBFactory
+import me.imid.swipebacklayout.lib.SwipeBackLayout
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity
 import me.undownding.zhihu.api.ZhihuApi
 import me.undownding.zhihu.model.Story
 import retrofit.RestAdapter
@@ -21,7 +23,7 @@ import kotlin.text.replace
 /**
  * Created by undow on 2016/1/4.
  */
-class StoryActivity: AppCompatActivity() {
+class StoryActivity: SwipeBackActivity() {
 
     @Bind(R.id.toolbar)
     lateinit  var toolbar: Toolbar
@@ -35,6 +37,9 @@ class StoryActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_story)
 
+        // Init SwipebackLayout
+        swipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT)
+
         // ButterKnife.bind(this)
         toolbar = ButterKnife.findById(this, R.id.toolbar)
         webView = ButterKnife.findById(this, R.id.webview)
@@ -44,6 +49,14 @@ class StoryActivity: AppCompatActivity() {
 
         storyId = intent.extras.getString("id")
         initWebView()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == android.R.id.home) {
+            finish()
+            return true;
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun initWebView() {
