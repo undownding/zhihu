@@ -9,6 +9,7 @@ import android.webkit.WebView
 import butterknife.Bind
 import butterknife.ButterKnife
 import com.snappydb.DBFactory
+import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout
 import me.imid.swipebacklayout.lib.SwipeBackLayout
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity
 import me.undownding.zhihu.api.ZhihuApi
@@ -31,6 +32,9 @@ class StoryActivity: SwipeBackActivity() {
     @Bind(R.id.webview)
     lateinit var webView: WebView
 
+    @Bind(R.id.main_swipe)
+    lateinit var swipeRefreshLayout: WaveSwipeRefreshLayout
+
     var storyId: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +51,14 @@ class StoryActivity: SwipeBackActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        swipeRefreshLayout = ButterKnife.findById<WaveSwipeRefreshLayout>(this, R.id.main_swipe)
+
+        swipeRefreshLayout.setWaveColor(resources.getColor(R.color.colorPrimary))
+        swipeRefreshLayout.setColorSchemeColors(resources.getColor(android.R.color.white))
+        swipeRefreshLayout.setOnRefreshListener {
+            refresh()
+        }
+
         storyId = intent.extras.getString("id")
         initWebView()
     }
@@ -61,6 +73,7 @@ class StoryActivity: SwipeBackActivity() {
 
     private fun initWebView() {
         webView.settings.javaScriptEnabled = true;
+        swipeRefreshLayout.isRefreshing = true
 
         // Load from NoSQL DB
         Observable.create<Story?> { observable ->
@@ -95,12 +108,13 @@ class StoryActivity: SwipeBackActivity() {
                     .subscribeOn(Schedulers.newThread())
                     .doOnError {
                         err ->
-                        // do nothing with err
+                        swipeRefreshLayout.isRefreshing = false
                     }
                     .subscribe { story ->
                         modelToView(story)
 
                         Handler().postDelayed({
+                            swipeRefreshLayout.isRefreshing = false
                         }, 1200)
 
                         // Save to DB
@@ -129,8 +143,6 @@ class StoryActivity: SwipeBackActivity() {
             val regex2 = Regex("<div class\\S+holder\\\"></div>")
             htmlString = htmlString.replace(regex, "<img src=\"${data.image}\" width=\"100%\" />")
             htmlString = htmlString.replace(regex2, "<img src=\"${data.image}\" width=\"100%\"/>")
-
-            Log.d("test", htmlString)
 
             webView.post({
                 webView.loadData(htmlString, "text/html; charset=UTF-8", null);

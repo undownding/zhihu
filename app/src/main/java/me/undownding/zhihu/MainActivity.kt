@@ -49,7 +49,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         initRecyclerView(recyclerView)
     }
