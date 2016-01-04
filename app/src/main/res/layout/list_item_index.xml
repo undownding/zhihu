@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="8dp"
-        android:foreground="?attr/selectableItemBackground">
+        android:foreground="?attr/selectableItemBackground"
+        android:onClick="onClick">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -20,11 +21,14 @@
                 android:layout_height="96dp"
                 fresco:placeholderImage="@mipmap/ic_launcher"
                 android:layout_margin="16dp"
-                binding:image_url="@{story.images}"/>
+                binding:image_url="@{story.images.toArray()}"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/pic"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="8dp"
                     android:textAppearance="?android:textAppearanceLarge"
                     android:text="@{story.title}"/>
         </RelativeLayout>
