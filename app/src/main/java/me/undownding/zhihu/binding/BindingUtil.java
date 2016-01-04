@@ -12,6 +12,7 @@ import java.util.Objects;
  * Created by undow on 2016/1/4.
  */
 public class BindingUtil {
+
     @BindingAdapter("binding:image_url")
     public static void bindImage(SimpleDraweeView view, Object[] url) {
         if (url.length > 0) {
@@ -22,4 +23,5 @@ public class BindingUtil {
             view.setImageURI(Uri.parse(url[0].toString()));
         }
     }
+
 }
