@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:binding="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/tools">
     <data>
         <variable name="story" type="me.undownding.zhihu.model.StoryList.Story" />
@@ -11,14 +12,15 @@
         android:layout_height="match_parent"
         android:layout_margin="8dp"
         android:foreground="?attr/selectableItemBackground"
-        android:onClick="onClick">
+        card_view:cardElevation="4dp"
+        binding:bind_click="@{story}">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/pic"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
                 fresco:placeholderImage="@mipmap/ic_launcher"
                 android:layout_margin="16dp"
                 binding:image_url="@{story.images.toArray()}"/>
@@ -30,6 +32,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="8dp"
                     android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="16sp"
                     android:text="@{story.title}"/>
         </RelativeLayout>
 

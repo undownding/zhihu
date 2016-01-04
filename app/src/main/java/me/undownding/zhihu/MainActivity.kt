@@ -49,15 +49,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         setSupportActionBar(toolbar)
-        if (supportActionBar != null) {
-            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         initRecyclerView(recyclerView)
     }
 
 
-    fun initRecyclerView(recyclerView: RecyclerView) {
+    private fun initRecyclerView(recyclerView: RecyclerView) {
         val layoutManager = LinearLayoutManager(ZhihuApplication.getInstance())
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         recyclerView.layoutManager = layoutManager
@@ -74,21 +72,21 @@ class MainActivity : AppCompatActivity() {
                 observable.onNext(null)
             }
         }
-        .observeOn(Schedulers.newThread())
-        .subscribeOn(AndroidSchedulers.mainThread())
-        .doOnError { err -> /* do nothing */ }
-        .subscribe {
-            storyList ->
-            if (storyList != null) {
-                val adapter = IndexAdapter(storyList)
-                recyclerView.adapter = adapter
-            }
-            swipeRefreshLayout.isRefreshing = true
-            refresh()
-        }
+                .observeOn(Schedulers.newThread())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .doOnError { err -> /* do nothing */ }
+                .subscribe {
+                    storyList ->
+                    if (storyList != null) {
+                        val adapter = IndexAdapter(storyList)
+                        recyclerView.adapter = adapter
+                    }
+                    swipeRefreshLayout.isRefreshing = true
+                    refresh()
+                }
     }
 
-    fun refresh() {
+    private fun refresh() {
         val api = RestAdapter.Builder().setEndpoint("http://news-at.zhihu.com/").build().create(ZhihuApi::class.java)
         api.getLast()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -118,7 +116,4 @@ class MainActivity : AppCompatActivity() {
                 }
     }
 
-    public fun onClick(view: View) {
-        // do nothing
-    }
 }

@@ -103,6 +103,7 @@ public class StoryList {
         public List<String> getImages() {
             return images;
         }
+
     }
 
     public static class TopStories {
