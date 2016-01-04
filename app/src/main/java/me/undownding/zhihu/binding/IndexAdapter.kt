@@ -16,7 +16,7 @@ public class IndexAdapter(private val storyList: StoryList) : RecyclerView.Adapt
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder? {
         val inflater = LayoutInflater.from(parent.context);
-        val binding: ListItemIndexBinding = DataBindingUtil.inflate(inflater, R.layout.list_item_index, parent, false)
+        val binding: ListItemIndexBinding = DataBindingUtil.inflate(inflater, R.layout.list_item_index, parent, true)
         return Holder(binding)
     }
 
