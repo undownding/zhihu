@@ -2,6 +2,7 @@ package me.undownding.zhihu
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
@@ -98,7 +99,10 @@ class MainActivity : AppCompatActivity() {
                 .subscribe { storyList ->
                     val adapter = IndexAdapter(storyList)
                     recyclerView.adapter = adapter
-                    swipeRefreshLayout.isRefreshing = false
+
+                    Handler().postDelayed({
+                        swipeRefreshLayout.isRefreshing = false
+                    }, 1200)
 
                     // Save to DB
                     Thread() {
