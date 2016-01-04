@@ -9,13 +9,16 @@ import android.view.View
 
 import butterknife.Bind
 import butterknife.ButterKnife
+import com.snappydb.DBFactory
 import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout
 import me.undownding.zhihu.api.ZhihuApi
 import me.undownding.zhihu.binding.IndexAdapter
 import me.undownding.zhihu.model.StoryList
 import retrofit.RestAdapter
+import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.functions.Action1
+import rx.schedulers.Schedulers
 
 class MainActivity : AppCompatActivity() {
 
@@ -57,7 +60,31 @@ class MainActivity : AppCompatActivity() {
         val layoutManager = LinearLayoutManager(ZhihuApplication.getInstance())
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         recyclerView.layoutManager = layoutManager
-        refresh()
+
+        // Load from NoSQL DB
+        Observable.create<StoryList?> { observable ->
+            try {
+                val snappyDB = DBFactory.open(application)
+                val list = snappyDB.getObject("latest", StoryList::class.java)
+                observable.onNext(list)
+                snappyDB.close()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                observable.onNext(null)
+            }
+        }
+        .observeOn(Schedulers.newThread())
+        .subscribeOn(AndroidSchedulers.mainThread())
+        .doOnError { err -> /* do nothing */ }
+        .subscribe {
+            storyList ->
+            if (storyList != null) {
+                val adapter = IndexAdapter(storyList)
+                recyclerView.adapter = adapter
+            }
+            swipeRefreshLayout.isRefreshing = true
+            refresh()
+        }
     }
 
     fun refresh() {
@@ -72,6 +99,18 @@ class MainActivity : AppCompatActivity() {
                     val adapter = IndexAdapter(storyList)
                     recyclerView.adapter = adapter
                     swipeRefreshLayout.isRefreshing = false
+
+                    // Save to DB
+                    Thread() {
+                        try {
+                            val snappyDB = DBFactory.open(application)
+                            snappyDB.put("latest", storyList)
+                            snappyDB.close()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }.start()
+
                 }
     }
 

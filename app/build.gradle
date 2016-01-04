@@ -38,6 +38,10 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile 'com.github.recruit-lifestyle:WaveSwipeRefreshLayout:1.4'
 
+    // SnappyDB
+    compile 'com.snappydb:snappydb-lib:0.5.2'
+    compile 'com.esotericsoftware.kryo:kryo:2.24.0'
+
     // Android Data Binding
     kapt 'com.android.databinding:compiler:1.0-rc4'
 }
