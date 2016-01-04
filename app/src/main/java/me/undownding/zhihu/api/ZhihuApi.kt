@@ -11,30 +11,30 @@ import rx.Observable
 public interface  ZhihuApi {
 
     @GET("/api/{api_version}/news/latest")
-    fun getLast(@Path("api_verion") apiVersion: Int = ApiVerson): Observable<StoryList>
+    fun getLast(@Path("api_version") apiVersion: Int = API_VERSION): Observable<StoryList>
 
     @GET("/api/{api_version}/news/{news_id}")
-    fun getNews(@Path("api_version") apiVersion: Int = ApiVerson, @Path("news_id") newsId: String = "3892357"): Observable<Story>
+    fun getNews(@Path("api_version") apiVersion: Int = API_VERSION, @Path("news_id") newsId: String = "3892357"): Observable<Story>
 
     @GET("/api/{api_version}/news/before/{date}")
-    fun getHistory(@Path("api_version") apiVersion: Int = ApiVerson, @Path("date") date: String = "20131119"): Observable<StoryList>
+    fun getHistory(@Path("api_version") apiVersion: Int = API_VERSION, @Path("date") date: String = "20131119"): Observable<StoryList>
 
     @GET("/api/{api_version}/story-extra/{story_id}")
-    fun getExtra(@Path("api_version") apiVersion: Int = ApiVerson, @Path("story_id") storyId: String = "3892357"): Observable<StoryExtra>
+    fun getExtra(@Path("api_version") apiVersion: Int = API_VERSION, @Path("story_id") storyId: String = "3892357"): Observable<StoryExtra>
 
     @GET("/api/{api_version}/story/{story_id}/long-comments")
-    fun getLongComments(@Path("api_version") apiVersion: Int = ApiVerson, @Path("story_id") storyId: String = "3892357"): Observable<LongComments>
+    fun getLongComments(@Path("api_version") apiVersion: Int = API_VERSION, @Path("story_id") storyId: String = "3892357"): Observable<LongComments>
 
     @GET("/api/{api_version}/story/{story_id}/short-comments")
-    fun getShortComments(@Path("api_version") apiVersion: Int = ApiVerson, @Path("story_id") storyId: String = "3892357"): Observable<ShortComments>
+    fun getShortComments(@Path("api_version") apiVersion: Int = API_VERSION, @Path("story_id") storyId: String = "3892357"): Observable<ShortComments>
 
     @GET("/api/{api_version}/themes")
-    fun getThemes(@Path("api_version") apiVersion: Int = ApiVerson): Observable<Themes>
+    fun getThemes(@Path("api_version") apiVersion: Int = API_VERSION): Observable<Themes>
 
     @GET("/api/4/theme/{theme_id}")
-    fun getTheme(@Path("api_version") apiVersion: Int = ApiVerson, @Path("theme_id") themeId: String = "11"): Observable<Theme>
+    fun getTheme(@Path("api_version") apiVersion: Int = API_VERSION, @Path("theme_id") themeId: String = "11"): Observable<Theme>
 
     companion object {
-        val ApiVerson: Int = 4
+        val API_VERSION: Int = 4
     }
 }
